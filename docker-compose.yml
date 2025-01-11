@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend/react-app # Specify build context for the frontend
+    ports:
+      - "5173:5173" # Map frontend's development server port
+    volumes:
+      - ./frontend:/app # Ensure live updates for frontend files
+    networks:
+      - react-test
+
+  backend:
+    build:
+      context: ./backend # Specify build context for the backend
+    ports:
+      - "3000:3000" # Map backend port
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/BookInventory # MongoDB connection string
+    depends_on:
+      - mongo # Ensure MongoDB starts before the backend
+    volumes:
+      - ./backend:/app # Mount backend directory for live updates
+    networks:
+      - react-test
+
+  mongo:
+    image: mongo:latest # Use a specific version for better compatibility
+    container_name: mongodb
+    ports:
+      - "27017:27017" # Map MongoDB's default port
+    environment:
+      - MONGO_INITDB_DATABASE=BookInventory # Initialize the database
+    volumes:
+      - mongo-data:/data/db # Persist MongoDB data
+    networks:
+      - react-test
+
+volumes:
+  mongo-data: # Named volume for MongoDB persistence
+    driver: local
+
+networks:
+  react-test: # Shared network for inter-container communication
+    driver: bridge
