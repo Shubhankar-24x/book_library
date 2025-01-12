@@ -12,7 +12,7 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0', // Ensure Vite binds to all network interfaces
-    port: 5000, // Match the exposed port in docker-compose.yml
+    port: 5173, // Match the exposed port in docker-compose.yml
     strictPort: true, // Fail if port is already in use
     watch: {
       usePolling: true, // Ensure file changes are detected in Docker

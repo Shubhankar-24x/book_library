@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -7,18 +7,7 @@ import { Pagination, Autoplay } from 'swiper/modules'; // Import Autoplay module
 import { Link } from 'react-router-dom';
 import { FaCartShopping } from 'react-icons/fa6';
 
-const BookCards = ({ headline }) => {
-  const [fetchedBooks, setFetchedBooks] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:3000/books')
-      .then((response) => response.json())
-      .then((data) => {
-        setFetchedBooks(data);
-      })
-      .catch((error) => console.error('Error fetching books:', error));
-  }, []);
-
+const BookCards = ({ books, headline }) => {
   return (
     <div className="my-16 px-4 lg:px-24">
       <h2 className="text-5xl text-center font-bold text-black my-5">
@@ -51,7 +40,6 @@ const BookCards = ({ headline }) => {
             }
 
             .card-info {
-              
               flex-grow: 1;
               display: flex;
               flex-direction: column;
@@ -88,7 +76,7 @@ const BookCards = ({ headline }) => {
           spaceBetween={10}
           pagination={{ clickable: true }}
           autoplay={{
-            delay: 2000, // Auto-slide every 3 seconds
+            delay: 2000, // Auto-slide every 2 seconds
             disableOnInteraction: false, // Continue autoplay even after user interaction
           }}
           breakpoints={{
@@ -109,7 +97,7 @@ const BookCards = ({ headline }) => {
           className="mySwiper w-full h-full"
           style={{ paddingBottom: '40px' }}
         >
-          {fetchedBooks.map((book) => (
+          {books.slice(0, 10).map((book) => (
             <SwiperSlide key={book._id}>
               <Link to={`/book/${book._id}`}>
                 <div className="relative card-content">

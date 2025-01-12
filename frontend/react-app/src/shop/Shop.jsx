@@ -5,7 +5,7 @@ const Shop = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/books')
+    fetch(`${import.meta.env.VITE_API_URL}/books`)
       .then((rest) => rest.json())
       .then((data) => setBooks(data));
   }, []);
@@ -21,9 +21,6 @@ const Shop = () => {
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               <p>{book.title}</p>
             </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              {book.description}
-            </p>
             <button className="bg-blue-700 font-semibold text-white py-2 rounded">
               Buy Now
             </button>

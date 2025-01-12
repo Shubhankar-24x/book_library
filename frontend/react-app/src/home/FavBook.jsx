@@ -13,7 +13,7 @@ const FavBook = () => {
                 Find Your Favorite <span className='text-blue-700'>Book Here !</span>
             </h2>
             <p className='mb-10 text-lg md:w-5/6'>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis unde molestiae ipsa ab totam quam itaque inventore rem, accusamus numquam similique, iure quisquam praesentium? Fuga odit dolores quas ad doloribus.
+            Find Your Favorite Book Here connects you with the perfect book, whether you're an avid reader or just starting out. With a wide range of genres, personalized recommendations, and detailed reviews, we make discovering your next great read easy and exciting. Join our community of book lovers and explore a world of literary adventures!
             </p>
             {/* stats */}
             <div className='flex flex-col sm:flex-row justify-between gap-6 md:w-3/4 my-14'>

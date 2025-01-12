@@ -8,7 +8,7 @@ const Banner = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const handleSearch = () => {
-    fetch(`http://localhost:3000/books/search?query=${searchQuery}`)
+    fetch(`${import.meta.env.VITE_API_URL}/books/search?query=${searchQuery}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
