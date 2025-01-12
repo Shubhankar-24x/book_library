@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const bookRoutes = require('./routes/bookRoutes');
 const Book = require('./models/Book');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 5050;
 
 // Middleware
 app.use(cors());
@@ -66,4 +66,15 @@ app.post('/chat', async (req, res) => {
 // Start server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
+});
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received. Shutting down gracefully...');
+  server.close(() => {
+      console.log('Server closed.');
+      mongoose.connection.close(false, () => {
+          console.log('MongoDB connection closed.');
+          process.exit(0);
+      });
+  });
 });
