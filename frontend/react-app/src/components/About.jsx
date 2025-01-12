@@ -8,7 +8,7 @@ const About = () => {
         Welcome to our intelligent Book Management System! This platform is designed to
         help you organize, manage, and predict trends in your book collection efficiently.
         With features like advanced search, predictive analysis, and seamless user
-        experience, our system makes book management easier than ever before.
+        experience, our system makes book management easier than ever before......
       </p>
       <ul style={styles.list}>
         <li style={styles.listItem}>Organize and catalog your books with ease</li>
