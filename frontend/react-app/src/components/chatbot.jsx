@@ -119,7 +119,7 @@ const Chatbot = () => {
       setMessages((prev) => [...prev, helpMessage]);
     } else if (newMessage.toLowerCase().trim() === "credit") {
       const creditMessage = {
-        text: "Credits:  Shubhankar Biswas, Rajdeep Biswas, Soumyajit Khan, Akash Ghosh, Amit Paramanik",
+        text: "Credits: Deepti manna, Shubhankar Biswas, Rajdeep Biswas, Soumyajit Khan, Akash Ghosh, Amit Paramanik",
         sender: "bot",
         timestamp: new Date().toLocaleTimeString(),
       };
