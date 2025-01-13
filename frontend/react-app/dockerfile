@@ -1,21 +1,26 @@
-# Use Node.js LTS as the base image
-FROM node:18-alpine
+# Use a specific Node.js LTS version as the base image
+FROM node:18
 
 # Set the working directory in the container
 WORKDIR /node
 
+# Install necessary build tools and libraries
+RUN apt-get update && apt-get install -y build-essential
+
 # Copy package.json and package-lock.json
-COPY package.json .
+COPY package.json package-lock.json* ./
 
-# Install dependencies
-RUN npm install && npm install react-chat-widget --legacy-peer-deps
+# Install dependencies with --legacy-peer-deps
+RUN npm install --legacy-peer-deps
 
+# Install additional dependencies if needed
+RUN npm install react-chat-widget --legacy-peer-deps
 
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port 
+# Expose the port
 EXPOSE 5173
 
 # Define the command to run the app
-CMD ["npm", "run","dev"]
+CMD ["npm", "run", "dev"]

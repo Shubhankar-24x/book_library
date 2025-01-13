@@ -11,11 +11,22 @@ export default defineConfig({
     },
   },
   server: {
-    host: '0.0.0.0', // Ensure Vite binds to all network interfaces
-    port: 5173, // Match the exposed port in docker-compose.yml
-    strictPort: true, // Fail if port is already in use
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
     watch: {
-      usePolling: true, // Ensure file changes are detected in Docker
+      usePolling: true,
+    },
+  },
+  optimizeDeps: {
+    include: ['flowbite-react'],
+    esbuildOptions: {
+      target: 'esnext', // Ensure compatibility with modern features
+    },
+  },
+  build: {
+    commonjsOptions: {
+      include: [/node_modules/], // Ensure native modules are bundled correctly
     },
   },
 });
