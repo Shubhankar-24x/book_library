@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; // Ensure this is imported
 import BannerCard from '../home/BannerCard';
+import { CartContext } from '../contects/CartContext'; // Ensure the import path is correct
 
 const Banner = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResult] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const { handleAddToCart } = useContext(CartContext); // Use handleAddToCart from context
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSearch = () => {
     fetch(`${import.meta.env.VITE_API_URL}/books/search?query=${searchQuery}`)
@@ -22,9 +25,17 @@ const Banner = () => {
       .catch((error) => console.error('Error fetching search results:', error));
   };
 
-  const handleAddToCart = (book) => {
-    setCartItems((prevItems) => [...prevItems, book]);
-    alert(`${book.title} has been added to your cart.`);
+  const handleBuyNow = (book) => {
+    handleAddToCart(book); // Add the book to the cart
+    setIsModalOpen(false); // Close the modal
+    console.log("Redirecting to /cart"); // Debugging
+    navigate('/cart'); // Redirect to the cart page
+  };
+
+  const handleAddToCartAndRedirect = (book) => {
+    handleAddToCart(book); // Add the book to the cart
+    setIsModalOpen(false); // Close the modal
+    navigate('/cart'); // Redirect to the cart page
   };
 
   return (
@@ -86,13 +97,13 @@ const Banner = () => {
               <p className="text-lg font-bold mt-4">Price: ₹{searchResult.rentalPrice.toFixed(2)}</p>
               <div className="mt-6 flex space-x-4">
                 <button
-                  onClick={() => alert(`Redirecting to buy page for ${searchResult.title}`)} // Replace with actual buy logic
+                  onClick={() => handleBuyNow(searchResult)} // Add to cart and redirect
                   className="bg-blue-700 text-white py-2 px-4 rounded hover:bg-black transition-all ease-in duration-200"
                 >
                   Buy Now
                 </button>
                 <button
-                  onClick={() => handleAddToCart(searchResult)}
+                  onClick={() => handleAddToCartAndRedirect(searchResult)} // Add to cart and redirect
                   className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-all ease-in duration-200"
                 >
                   Add to Cart

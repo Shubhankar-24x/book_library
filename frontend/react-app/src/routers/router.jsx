@@ -1,14 +1,11 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useParams,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
 import Home from "../home/Home";
 import Shop from "../shop/Shop";
 import About from "../components/About";
 import Blog from "../components/Blog";
 import SingleBook from "../components/SingleBook";
+import Cart from "../components/Cart"; // New Cart page
 import DashboardLayout from "../dashboard/DashboardLayout";
 import Dashboard from "../dashboard/Dashboard";
 import UploadBook from "../dashboard/UploadBook";
@@ -24,24 +21,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      { path: "home", element: <Home /> },
+      { path: "shop", element: <Shop /> },
+      { path: "about", element: <About /> },
+      { path: "blog", element: <Blog /> },
+      { path: "cart", element: <Cart /> }, // New Cart route
       {
-        path: "/Home",
-        element: <Home />,
-      },
-      {
-        path: "/shop",
-        element: <Shop />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/blog",
-        element: <Blog />,
-      },
-      {
-        path: "/book/:id",
+        path: "book/:id",
         element: <SingleBook />,
         loader: async ({ params }) => {
           const response = await fetch(`${import.meta.env.VITE_API_URL}/books/${params.id}`);
@@ -56,51 +42,31 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: "/admin/dashboard",
+        path: "",
         element: (
           <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
         ),
       },
+      { path: "upload", element: <UploadBook /> },
+      { path: "manage", element: <ManageBooks /> },
       {
-        path: "/admin/dashboard/upload",
-        element: <UploadBook />,
-      },
-      {
-        path: "/admin/dashboard/manage",
-        element: <ManageBooks />,
-      },
-      {
-        path: "/admin/dashboard/edit-books/:id",
+        path: "edit-books/:id",
         element: <EditBooks />,
         loader: async ({ params }) => {
-          try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/books/${params.id}`);
-            if (!response.ok) {
-              throw new Response("", { status: response.status, statusText: response.statusText });
-            }
-            return response.json();
-          } catch (error) {
-            console.error("Error fetching book data:", error);
-            throw new Response("", { status: 500, statusText: "Internal Server Error" });
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/books/${params.id}`);
+          if (!response.ok) {
+            throw new Response("", { status: response.status, statusText: response.statusText });
           }
+          return response.json();
         },
       },
     ],
   },
-  {
-    path: "/sign-up",
-    element: <Signup />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/logout",
-    element: <Logout />,
-  },
+  { path: "/sign-up", element: <Signup /> },
+  { path: "/login", element: <Login /> },
+  { path: "/logout", element: <Logout /> },
 ]);
 
 export default router;
