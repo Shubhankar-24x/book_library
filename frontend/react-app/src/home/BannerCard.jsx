@@ -1,38 +1,39 @@
-import React from 'react';
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/effect-cards';
-
-// Import required Swiper modules
 import { EffectCards, Autoplay } from 'swiper/modules';
-
 import './BannerCard.css';
+
+// Import images using the correct relative path
+import book1 from "../assets/books/book1.jpg";
+import book2 from "../assets/books/book2.jpg";
+import book3 from "../assets/books/book3.jpg";
+import book4 from "../assets/books/book4.jpg";
+import book5 from "../assets/books/book5.jpg";
+import book6 from "../assets/books/book6.jpg";
+import book7 from "../assets/books/book7.jpg";
 
 const BannerCard = () => {
   return (
     <div className='banner'>
       <Swiper
-        effect={'cards'} // Apply the 'cards' effect
-        grabCursor={true} // Allow cursor grab
-        modules={[EffectCards, Autoplay]} // Import EffectCards and Autoplay modules
+        effect={'cards'}
+        grabCursor={true}
+        modules={[EffectCards, Autoplay]}
         autoplay={{
-          delay: 1000, // Delay between automatic slide changes (2 seconds)
-          disableOnInteraction: false, // Continue autoplay after user interaction
+          delay: 1000,
+          disableOnInteraction: false,
         }}
-        loop={true} // Infinite loop of slides
+        loop={true}
         className="mySwiper"
       >
-        {/* SwiperSlides with background images */}
-        <SwiperSlide style={{ backgroundImage: "url('src/assets/books/book1.jpg')" }}></SwiperSlide>
-        <SwiperSlide style={{ backgroundImage: "url('src/assets/Books/book3.jpg')" }}></SwiperSlide>
-        <SwiperSlide style={{ backgroundImage: "url('src/assets/Books/book4.jpg')" }}></SwiperSlide>
-        <SwiperSlide style={{ backgroundImage: "url('src/assets/Books/book5.jpg')" }}></SwiperSlide>
-        <SwiperSlide style={{ backgroundImage: "url('src/assets/Books/book6.jpg')" }}></SwiperSlide>
-        <SwiperSlide style={{ backgroundImage: "url('src/assets/Books/book7.jpg')" }}></SwiperSlide>
-        <SwiperSlide style={{ backgroundImage: "url('src/assets/Books/book2.jpg')" }}></SwiperSlide>
+        <SwiperSlide style={{ backgroundImage: `url(${book1})` }}></SwiperSlide>
+        <SwiperSlide style={{ backgroundImage: `url(${book2})` }}></SwiperSlide>
+        <SwiperSlide style={{ backgroundImage: `url(${book3})` }}></SwiperSlide>
+        <SwiperSlide style={{ backgroundImage: `url(${book4})` }}></SwiperSlide>
+        <SwiperSlide style={{ backgroundImage: `url(${book5})` }}></SwiperSlide>
+        <SwiperSlide style={{ backgroundImage: `url(${book6})` }}></SwiperSlide>
+        <SwiperSlide style={{ backgroundImage: `url(${book7})` }}></SwiperSlide>
       </Swiper>
     </div>
   );

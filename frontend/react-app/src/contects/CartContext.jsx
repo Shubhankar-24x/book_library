@@ -1,21 +1,29 @@
-import React, { createContext, useState } from 'react';
+import  { createContext, useState, useEffect } from "react";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  const handleAddToCart = (book) => {
-    setCartItems((prevItems) => [...prevItems, book]);
-    alert(`${book.title} has been added to your cart.`);
-  };
+  // Load cart items from localStorage on initial render
+  useEffect(() => {
+    const savedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    setCartItems(savedCartItems);
+  }, []);
 
-  const handleRemoveFromCart = (bookToRemove) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== bookToRemove.id));
+  // Save cart items to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const handleRemoveFromCart = (itemToRemove) => {
+    console.log("Item to remove:", itemToRemove);
+    console.log("Current cart items:", cartItems);
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemToRemove.id));
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, handleAddToCart, handleRemoveFromCart }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, handleRemoveFromCart }}>
       {children}
     </CartContext.Provider>
   );

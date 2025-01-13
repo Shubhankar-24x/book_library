@@ -9,10 +9,10 @@ const NavBar = () => {
     { label: 'About', path: 'about' },
     { label: 'Shop', path: 'shop' },
     { label: 'Blog', path: 'blog' },
-    { label: 'Sell Books', path: '/admin/dashboard' }, // Keep as a Link for routing
+    { label: 'Sell Books', path: '/admin/dashboard' },
+    { label: 'Cart', path: '/cart' }, // Add Cart item
   ];
 
-  // Function to handle scrolling to a specific section
   const handleScrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -48,7 +48,7 @@ const NavBar = () => {
           <ul className={`md:flex space-x-12 justify-center flex-grow hidden md:block`}>
             {navItems.map(({ label, path }) => (
               <li key={path}>
-                {label !== 'Sell Books' ? (
+                {label !== 'Sell Books' && label !== 'Cart' ? (
                   <button
                     onClick={() => handleScrollToSection(path)}
                     className="block text-base text-white uppercase cursor-pointer text-center hover:text-blue-300 transition-colors"
@@ -72,7 +72,7 @@ const NavBar = () => {
           <ul className="md:hidden flex flex-col space-y-4 mt-4">
             {navItems.map(({ label, path }) => (
               <li key={path}>
-                {label !== 'Sell Books' ? (
+                {label !== 'Sell Books' && label !== 'Cart' ? (
                   <button
                     onClick={() => handleScrollToSection(path)}
                     className="block text-base text-white uppercase cursor-pointer text-center hover:text-blue-300 transition-colors"
