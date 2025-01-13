@@ -19,8 +19,7 @@ import Login from "../components/Login";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Logout from "../components/Logout";
 import CartPage from "../components/CartPage"; // Import the Cart component
-import Checkout from "../components/Checkout"; // Import the Checkout component
-
+import Checkout from "../components/checkout";  // Import the Checkout component
 const router = createBrowserRouter([
   {
     path: "/",

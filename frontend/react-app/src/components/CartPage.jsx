@@ -18,6 +18,11 @@ const CartPage = () => {
     navigate("/checkout");
   };
 
+  // Navigate to the shop section
+  const handleContinueShopping = () => {
+    navigate("/shop"); // Redirect to the shop section
+  };
+
   return (
     <div className="min-h-screen p-8 bg-gray-100">
       <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
@@ -54,7 +59,7 @@ const CartPage = () => {
           </div>
           <div className="flex justify-end space-x-4 mt-6">
             <button
-              onClick={() => navigate("/shop")}
+              onClick={handleContinueShopping} // Redirect to the shop section
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
               Continue Shopping

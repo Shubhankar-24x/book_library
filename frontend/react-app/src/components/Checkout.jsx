@@ -1,18 +1,43 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../contects/CartContext"; // Corrected import path
+import { ToastContainer, toast } from "react-toastify"; // Import toast
+import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { cartItems, clearCart } = useContext(CartContext);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    address: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+  });
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.rentalPrice, 0).toFixed(2);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validateForm = () => {
+    const { fullName, address, cardNumber, expiryDate, cvv } = formData;
+    if (!fullName || !address || !cardNumber || !expiryDate || !cvv) {
+      toast.error("Please fill in all the details before placing your order.");
+      return false;
+    }
+    return true;
+  };
+
   const handlePlaceOrder = () => {
+    if (!validateForm()) return; // Stop if form is invalid
+
     setIsPlacingOrder(true);
     setError(null);
 
@@ -20,11 +45,12 @@ const Checkout = () => {
     setTimeout(() => {
       const isSuccess = Math.random() > 0.5; // Simulate success/failure
       if (isSuccess) {
-        alert("Order placed successfully!");
+        toast.success("Order placed successfully!");
         clearCart();
         navigate("/");
       } else {
         setError("Failed to place order. Please try again.");
+        toast.error("Failed to place order. Please try again.");
       }
       setIsPlacingOrder(false);
     }, 2000);
@@ -64,6 +90,9 @@ const Checkout = () => {
                 <label className="block text-gray-700 mb-1">Full Name</label>
                 <input
                   type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
                   className="w-full p-2 border rounded"
                   placeholder="Enter your full name"
                   required
@@ -73,6 +102,9 @@ const Checkout = () => {
                 <label className="block text-gray-700 mb-1">Address</label>
                 <input
                   type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
                   className="w-full p-2 border rounded"
                   placeholder="Enter your address"
                   required
@@ -82,6 +114,9 @@ const Checkout = () => {
                 <label className="block text-gray-700 mb-1">Card Number</label>
                 <input
                   type="text"
+                  name="cardNumber"
+                  value={formData.cardNumber}
+                  onChange={handleInputChange}
                   className="w-full p-2 border rounded"
                   placeholder="Enter your card number"
                   required
@@ -92,6 +127,9 @@ const Checkout = () => {
                   <label className="block text-gray-700 mb-1">Expiry Date</label>
                   <input
                     type="text"
+                    name="expiryDate"
+                    value={formData.expiryDate}
+                    onChange={handleInputChange}
                     className="w-full p-2 border rounded"
                     placeholder="MM/YY"
                     required
@@ -101,6 +139,9 @@ const Checkout = () => {
                   <label className="block text-gray-700 mb-1">CVV</label>
                   <input
                     type="text"
+                    name="cvv"
+                    value={formData.cvv}
+                    onChange={handleInputChange}
                     className="w-full p-2 border rounded"
                     placeholder="Enter CVV"
                     required
@@ -110,15 +151,26 @@ const Checkout = () => {
             </form>
           </div>
 
-          {/* Place Order Button */}
-          <button
-            type="button"
-            onClick={handlePlaceOrder}
-            className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-            disabled={cartItems.length === 0 || isPlacingOrder}
-          >
-            {isPlacingOrder ? "Placing Order..." : "Place Order"}
-          </button>
+          {/* Buttons */}
+          <div className="flex justify-end space-x-4 mt-6">
+            {/* Back to Shopping Button */}
+            <button
+              onClick={() => navigate("/shop")}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Back to Shopping
+            </button>
+
+            {/* Place Order Button */}
+            <button
+              type="button"
+              onClick={handlePlaceOrder}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              disabled={cartItems.length === 0 || isPlacingOrder}
+            >
+              {isPlacingOrder ? "Placing Order..." : "Place Order"}
+            </button>
+          </div>
 
           {/* Display Error Message */}
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
@@ -134,6 +186,9 @@ const Checkout = () => {
           </button>
         </p>
       )}
+
+      {/* Toast Container */}
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </section>
   );
 };

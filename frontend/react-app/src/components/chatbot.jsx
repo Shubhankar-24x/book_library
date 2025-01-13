@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import  { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Chatbot.css";
 
@@ -119,7 +119,7 @@ const Chatbot = () => {
       setMessages((prev) => [...prev, helpMessage]);
     } else if (newMessage.toLowerCase().trim() === "credit") {
       const creditMessage = {
-        text: "Credits:  Shubhankar Biswas, Rajdeep Biswas, Soumyajit Khan, Akash Ghosh, Amit Paramanik",
+        text: "Credits:  Deepti Manna, Rajdeep Biswas, Soumyajit Khan,Shubhankar Biswas, Akash Ghosh, Amit Paramanik",
         sender: "bot",
         timestamp: new Date().toLocaleTimeString(),
       };

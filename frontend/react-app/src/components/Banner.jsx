@@ -1,7 +1,9 @@
-import React, { useState, useContext } from 'react';
+import  { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import { CartContext } from '../contects/CartContext'; // Import CartContext
 import BannerCard from '../home/BannerCard';
+import { ToastContainer, toast } from 'react-toastify'; // Import toast components
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 const Banner = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,7 +21,7 @@ const Banner = () => {
           setIsModalOpen(true); // Open the modal
         } else {
           setSearchResult(null);
-          alert('No books found for your query.');
+          toast.error('No books found for your query.'); // Use toast for error message
         }
       })
       .catch((error) => console.error('Error fetching search results:', error));
@@ -27,7 +29,8 @@ const Banner = () => {
 
   const handleAddToCart = (book) => {
     setCartItems((prevItems) => [...prevItems, book]); // Add the book to the cart
-    alert(`${book.title} has been added to your cart.`);
+    toast.success(`${book.title} has been added to your cart.`); // Use toast for success message
+    setIsModalOpen(false); // Close the modal after adding to cart
   };
 
   const handleBuyNow = (book) => {
@@ -110,6 +113,19 @@ const Banner = () => {
           </div>
         </div>
       )}
+
+      {/* Toast Container */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
