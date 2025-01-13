@@ -60,6 +60,46 @@ router.get('/bestsellers', async (req, res) => {
   }
 });
 
+// GET - Fetch a random book recommendation
+router.get('/chatbot/recommend', async (req, res) => {
+  try {
+    const books = await Book.find();
+    if (books.length === 0) {
+      return res.status(404).json({ message: "No books found in the database." });
+    }
+    const randomBook = books[Math.floor(Math.random() * books.length)];
+    res.json({ book: randomBook.title });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// GET - Fetch top 3 best-selling books
+// GET - Fetch top 3 best-selling books
+router.get('/chatbot/bestsellers', async (req, res) => {
+  try {
+    // Fetch all best-selling books
+    const bestsellers = await Book.find({ isBestseller: true });
+
+    if (bestsellers.length === 0) {
+      return res.status(404).json({ message: "No best-selling books found." });
+    }
+
+    // Shuffle the array of bestsellers
+    const shuffledBooks = bestsellers.sort(() => 0.5 - Math.random());
+
+    // Pick the first 3 books from the shuffled array
+    const randomBooks = shuffledBooks.slice(0, 3).map((book) => book.title);
+
+    res.json({ 
+      books: randomBooks, 
+      viewAllURL: `http://localhost:5050/bestsellers` // Replace with your actual URL
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // GET - Fetch a book by its ID
 router.get('/:id', async (req, res) => {
   try {
@@ -97,6 +137,5 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 module.exports = router;
