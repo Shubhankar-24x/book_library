@@ -66,7 +66,7 @@ pipeline{
         stage("Docker Build & Deploy"){
             steps{
                 script{
-                    sh " chmod 666 /var/run/docker.sock"
+                    sh " chmod 777 /var/run/docker.sock"
                     sh "docker compose down && docker compose up -d "
                 }
             }
