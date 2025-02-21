@@ -66,7 +66,11 @@ pipeline{
         stage("Docker Build & Deploy"){
             steps{
                 script{
-                    sh " sudo chown $USER /var/run/docker.sock"
+                    sh ''' sudo usermod -aG docker $USER && newgrp docker\
+                            sudo chown $USER /var/run/docker.sock\
+                            chmod 777 /var/run/docker.sock '''
+                            
+
                     sh "docker compose down && docker compose up -d "
                 }
             }
