@@ -6,7 +6,7 @@ services:
     ports:
       - "5173:5173" 
     env_file:
-      - .env    # Load environment variables from .env
+      - ./frontend/react-app/.env    # Load environment variables from .env
     networks:
       - react-test
     depends_on:
@@ -18,7 +18,7 @@ services:
     ports:
       - "5050:5050"
     env_file:
-      - .env      
+      - ./backend/.env      
     networks:
       - react-test
 
