@@ -68,10 +68,10 @@ pipeline{
                 script{
                     sh ''' sudo usermod -aG docker $USER && newgrp docker\
                             sudo chown $USER /var/run/docker.sock\
-                            chmod 777 /var/run/docker.sock '''
+                            chmod 600 /var/run/docker.sock '''
                             
 
-                    sh "docker compose down && docker compose up -d "
+                    sh "docker compose down && docker compose up -d --build "
                 }
             }
         }
