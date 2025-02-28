@@ -1,5 +1,5 @@
-# Use a specific Node.js LTS version as the base image
-FROM node:latest
+# Stage 1: Build the application
+FROM node:16-buster AS build
 
 # Set the working directory in the container
 WORKDIR /node
@@ -13,14 +13,26 @@ COPY package.json package-lock.json* ./
 # Install dependencies with --legacy-peer-deps
 RUN npm install --legacy-peer-deps
 
-# Install additional dependencies if needed
-RUN npm install react-chat-widget --legacy-peer-deps
-
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port
+# Build the app (assuming you have a build script like 'npm run build')
+RUN npm run build
+
+# Stage 2: Production image
+FROM node:16-buster AS production
+
+# Set the working directory in the container
+WORKDIR /node
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y libx11-dev # or any other runtime dependencies
+
+# Copy only the necessary files from the build stage
+COPY --from=build /node /node
+
+# Expose the port the app will run on
 EXPOSE 5173
 
-# Define the command to run the app
+# Define the command to run the app (assuming it's a production-ready script)
 CMD ["npm", "run", "dev"]
