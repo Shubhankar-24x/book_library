@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:16-buster AS build
+FROM node:18 AS frontend-builder
 
 # Set the working directory in the container
 WORKDIR /node
@@ -7,29 +7,27 @@ WORKDIR /node
 # Install necessary build tools and libraries
 RUN apt-get update && apt-get install -y build-essential
 
-# Copy package.json and package-lock.json
-COPY package.json package-lock.json* ./
+# Copy package.json 
+COPY package*.json ./
 
 # Install dependencies with --legacy-peer-deps
 RUN npm install --legacy-peer-deps
 
+# Install additional dependencies if needed
+RUN npm install react-chat-widget --legacy-peer-deps
+
 # Copy the rest of the application code
 COPY . .
 
-# Build the app (assuming you have a build script like 'npm run build')
-RUN npm run build
-
 # Stage 2: Production image
-FROM node:16-buster AS production
+FROM node:18-slim
 
 # Set the working directory in the container
 WORKDIR /node
 
-# Install runtime dependencies
-RUN apt-get update && apt-get install -y libx11-dev # or any other runtime dependencies
 
 # Copy only the necessary files from the build stage
-COPY --from=build /node /node
+COPY --from=frontend-builder /node .
 
 # Expose the port the app will run on
 EXPOSE 5173
